@@ -22,7 +22,8 @@
     <div v-show="show">
       <v-divider></v-divider>
       <v-card-text>
-        <v-main v-if="!checkValueArr(info.value)">{{ info.value }}</v-main>
+        <v-main v-if="!info.value.length">-</v-main>
+        <v-main v-else-if="!checkValueArr(info.value)">{{ info.value }}</v-main>
         <v-main v-else v-for="(link, idx) in info.value" :key="idx">
           {{ info.title }} {{idx + 1}}  : <a class="link-url" :href="link">info</a>
         </v-main>
@@ -49,8 +50,8 @@ export default {
   },
   methods: {
     checkValueArr(value) {
-      return Array.isArray(value);
-    },
+      return Array.isArray(value) && value.length > 0;
+    }
   }
 }
 </script>
@@ -58,5 +59,8 @@ export default {
 <style lang="scss">
   .link-url {
     text-decoration: unset;
+  }
+  .v-btn:not(.v-btn--round).v-size--default {
+    min-width: unset !important;
   }
 </style>

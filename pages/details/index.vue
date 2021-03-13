@@ -3,24 +3,7 @@
   <v-card
     class="mx-auto"
   >
-      <v-row justify="space-between">
-        <v-col @click="onHandleBack()">
-          <v-btn
-            class="ma-2"
-            color="orange darken-2"
-            dark
-          >
-            <v-icon
-              dark
-              left
-            >
-              mdi-arrow-left
-            </v-icon>Back
-          </v-btn>
-        </v-col>
-        <v-col></v-col>
-        <v-col></v-col>
-      </v-row>
+    <back-navigation />
     <v-img
       src="https://cdn.vuetifyjs.com/images/cards/sunshine.jpg"
       height="300px"
@@ -28,7 +11,6 @@
     <v-card-title>
       {{ storeDetail.name }}
     </v-card-title>
-
     <v-card-subtitle>
       the following is the explanation
     </v-card-subtitle>
@@ -43,6 +25,7 @@
 
 <script>
 import DetailItem from '~/components/Expanded';
+import BackNavigation from '~/components/Navigation';
 import moment from 'moment';
 
 export default {
@@ -63,7 +46,8 @@ export default {
     }
   },
   components: {
-    DetailItem
+    DetailItem,
+    BackNavigation
   },
   computed: {
     getId() {
@@ -81,15 +65,15 @@ export default {
       return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
     },
     getInfoDetail() {
-      const temp = [];
+      const data = [];
       Object.keys(this.storeDetail).map(x => {
         const modX = x.replace(/_/g, ' ');
-        temp.push({
+        data.push({
           title: modX,
           value: this.storeDetail[x]
         })
       })
-      temp.map(list => {
+      data.map(list => {
         switch(list.title) {
           case 'diameter': 
             list.value = `${list.value / 1000} km`;
@@ -104,16 +88,16 @@ export default {
             if (list.value === 2) {
               list.value = 'Twice';
             } else if (list.value === 1) {
-              list.value = 'Normal'
+              list.value = 'Normal';
             } else {
-              list.value = 'Half'
+              list.value = 'Half';
             }
           break;
           case 'population': 
-            list.value = `${this.convertNominal(list.value)} population`
+            list.value = `${this.convertNominal(list.value)} population`;
             break;
           case 'surface water':
-            list.value = `${list.value}%`
+            list.value = `${list.value} percentage`;
             break;
           case 'created':
             list.value = moment(list.value).format('DD MMM YYYY');
@@ -122,10 +106,10 @@ export default {
             list.value = moment(list.value).format('DD MMM YYYY');
             break;
           default: 
-            list.value;
+            return list.value;
         }
       })
-      return temp;
+      return data;
     }
   }
 }
