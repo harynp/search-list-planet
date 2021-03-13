@@ -29,7 +29,7 @@ export default {
   plugins: [],
 
   axios: {
-    baseURL: 'https://swapi.dev/api/', 
+  
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components

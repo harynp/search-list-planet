@@ -24,7 +24,7 @@
       <v-card-text>
         <v-main v-if="!checkValueArr(info.value)">{{ info.value }}</v-main>
         <v-main v-else v-for="(link, idx) in info.value" :key="idx">
-          {{ info.title }} {{idx + 1}}  : <a style="text-decoration: unset" :href="link">info</a>
+          {{ info.title }} {{idx + 1}}  : <a class="link-url" :href="link">info</a>
         </v-main>
       </v-card-text>
     </div>
@@ -55,3 +55,8 @@ export default {
 }
 </script>
 
+<style lang="scss">
+  .link-url {
+    text-decoration: unset;
+  }
+</style>

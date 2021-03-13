@@ -1,4 +1,6 @@
 export default {
   getListPlanets: state => state.list || [],
-  getDetailPlanet: state => state.detail || {}
+  getId: state => state.id,
+  getDetail: state => state.detail,
+  getPage: state => state.page
 };
