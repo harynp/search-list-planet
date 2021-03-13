@@ -22,6 +22,7 @@
 
 <script>
 import DetailItem from '~/components/Expanded';
+import moment from 'moment';
 
 export default {
   components: {
@@ -33,13 +34,53 @@ export default {
     }
   },
   methods: {
+    convertNominal(value) {
+      return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+    },
     getInfoDetail() {
       const temp = [];
       Object.keys(this.storeDetail).map(x => {
+        const modX = x.replace(/_/g, ' ');
         temp.push({
-          title: x,
+          title: modX,
           value: this.storeDetail[x]
         })
+      })
+      temp.map(list => {
+        switch(list.title) {
+          case 'diameter': 
+            list.value = `${list.value / 1000} km`;
+          break;
+          case 'rotation period': 
+            list.value = `${list.value} hours`;
+          break;
+          case 'orbital period':
+            list.value = `${list.value} days`;
+          break;
+          case 'gravity': 
+            if (list.value === 2) {
+              list.value = 'Twice';
+            } else if (list.value === 1) {
+              list.value = 'Normal'
+            } else {
+              list.value = 'Half'
+            }
+          break;
+          case 'population': 
+            list.value = `${this.convertNominal(list.value)} population`
+            break;
+          case 'surface water':
+            list.value = `${list.value}%`
+            break;
+          case 'created':
+            list.value = moment(list.value).format('DD MMM YYYY');
+            break;
+          case 'edited':
+            list.value = moment(list.value).format('DD MMM YYYY');
+            break;
+          default: 
+            list.value;
+        }
       })
       return temp;
     }
