@@ -29,7 +29,9 @@ export default {
   plugins: [],
 
   axios: {
-  
+    baseURL: 'https://swapi.dev/api/planets/',
+    proxyHeaders: false,
+    credentials: false
   },
 
   // Auto import components: https://go.nuxtjs.dev/config-components

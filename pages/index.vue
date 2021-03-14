@@ -6,10 +6,16 @@
         solo
         :label="'Search Names . . .'"
         append-icon="mdi-search-web"
+        @change="onHandleSearch"
+        autofocus
+        :validate-on-blur="true"
       />
     </div>
     <div class="spacer"></div>
-    <list-planets @go-detail="onHandleDetail" :list="computeListPlanets"/>
+    <list-planets v-if="computeListPlanets.length" @go-detail="onHandleDetail" :list="computeListPlanets"/>
+    <v-row v-else>
+      <v-col align="center">That's Planet Not Registered</v-col>
+    </v-row>
   </div>
 </template>
 
@@ -37,15 +43,21 @@ export default {
   },
   computed: {
     computeListPlanets() {
-      const arrPlanets = this.$store.getters['planets/getListPlanets'];
-      if (this.planetName.length) {
-        return arrPlanets.filter(x => x.name.toLowerCase().includes(this.planetName.toLowerCase()));
-      } else {
-        return arrPlanets;
-      }
+      return this.$store.getters['planets/getListPlanets'];
     },
   },
   methods: {
+    async onHandleSearch() {
+      try {
+        if (this.planetName.length) {
+          await this.$store.dispatch('planets/searchByName', this.planetName);
+        } else {
+          this.getListPlanets();
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    },
     isBottomVisible() {
       return window.innerHeight + window.pageYOffset >= document.body.offsetHeight - 2;
     },

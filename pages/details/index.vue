@@ -76,7 +76,9 @@ export default {
       data.map(list => {
         switch(list.title) {
           case 'diameter': 
-            list.value = `${list.value / 1000} km`;
+            if (list.value !== 'unknown') {
+              list.value = `${list.value / 1000} km`;
+            }
           break;
           case 'rotation period': 
             list.value = `${list.value} hours`;
